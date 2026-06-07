@@ -163,7 +163,16 @@ class Scraper:
             prev_year = current_year
             prev_month = current_month - 1
             
+        # Calculate the month before previous (needed for MoM calculation of the previous month)
+        if prev_month == 1:
+            prev2_year = prev_year - 1
+            prev2_month = 12
+        else:
+            prev2_year = prev_year
+            prev2_month = prev_month - 1
+            
         months_to_fetch = [
+            (prev2_year, prev2_month),
             (prev_year, prev_month),
             (current_year, current_month)
         ]
