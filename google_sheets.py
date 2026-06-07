@@ -46,7 +46,9 @@ def upload_summary_to_gsheets(df_dict: dict, spreadsheet_url: str):
             
         # Convert any numpy types hidden in object columns to native python types
         # This prevents "TypeError: Object of type int64 is not JSON serializable"
-        df_clean = df.applymap(lambda x: x.item() if hasattr(x, 'item') else x)
+        df_clean = df.copy()
+        for col in df_clean.columns:
+            df_clean[col] = df_clean[col].map(lambda x: x.item() if hasattr(x, 'item') else x)
             
         # Write dataframe
         set_with_dataframe(ws, df_clean)
