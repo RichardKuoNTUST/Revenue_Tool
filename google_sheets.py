@@ -44,8 +44,12 @@ def upload_summary_to_gsheets(df_dict: dict, spreadsheet_url: str):
             # Create a new worksheet with enough rows and columns
             ws = sh.add_worksheet(title=sheet_name, rows=str(len(df) + 10), cols=str(len(df.columns) + 5))
             
+        # Convert any numpy types hidden in object columns to native python types
+        # This prevents "TypeError: Object of type int64 is not JSON serializable"
+        df_clean = df.applymap(lambda x: x.item() if hasattr(x, 'item') else x)
+            
         # Write dataframe
-        set_with_dataframe(ws, df)
+        set_with_dataframe(ws, df_clean)
         print(f"  Done uploading {sheet_name}.")
 
     print("All Google Sheets updates complete.")
