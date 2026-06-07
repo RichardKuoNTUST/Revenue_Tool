@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+env/
+
+# Data and Secrets
+revenue.db
+*.xlsx
+*.csv
+service_account.json
+*.json
+
+# Ignore temporary/test files
+test_*.py
+dump_*.py
+matches.txt
+*.html
