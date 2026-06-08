@@ -43,15 +43,18 @@ def main():
     
     SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1U7hktAzdQ3pXQcC5zXJl2quolKaowkJTUnBgAZ00Udc/edit?gid=0#gid=0'
     
+    # Only upload the newest 2 months to avoid Google Sheets API rate limits
+    latest_keys = list(df_dict.keys())[:2]
+    upload_dict = {k: df_dict[k] for k in latest_keys}
+    
     if has_new_data:
         print("New data found! Uploading to Google Sheets...")
-        upload_summary_to_gsheets(df_dict, SPREADSHEET_URL)
+        upload_summary_to_gsheets(upload_dict, SPREADSHEET_URL)
     else:
         # Check if running in GitHub Actions. If so, don't skip upload for the first run or manual triggers
-        # Or we can just skip it to save API calls. Let's just always upload if 'FORCE_UPLOAD' is set.
         if os.environ.get('FORCE_UPLOAD') == '1':
             print("Force upload flag detected. Uploading to Google Sheets...")
-            upload_summary_to_gsheets(df_dict, SPREADSHEET_URL)
+            upload_summary_to_gsheets(upload_dict, SPREADSHEET_URL)
         else:
             print("No new data found. Skipping Google Sheets upload to save API quotas.")
     
