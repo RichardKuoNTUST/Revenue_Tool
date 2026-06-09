@@ -41,7 +41,7 @@ def main():
     from google_sheets import upload_summary_to_gsheets
     import os
     
-    SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1pFq-8rF-7zCef9wgS1sq9neGtAE8gl_B/edit?usp=sharing&ouid=108288578518390054129&rtpof=true&sd=true'
+    SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1pFq-8rF-7zCef9wgS1sq9neGtAE8gl_B/edit?gid=1319798868#gid=1319798868'
     
     # Only upload the newest 2 months to avoid Google Sheets API rate limits
     latest_keys = list(df_dict.keys())[:2]
