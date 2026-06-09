@@ -102,16 +102,31 @@ def export_summary(db: Database, stock_list: list, output_filename: str = 'Memor
     if '4967' in stock_list:
         stock_list = ['4967'] + [s for s in stock_list if s != '4967']
         
-    print("Crawling company names...")
-    # Cache company names
+    # Hardcode company names to avoid hitting MOPS API limits
+    HARDCODED_NAMES = {
+        '4967': '十銓',
+        '3260': '威剛',
+        '2451': '創見',
+        '5289': '宜鼎',
+        '8271': '宇瞻',
+        '4973': '廣穎',
+        '3135': '凌航',
+        '2408': '南亞科',
+        '8299': '群聯',
+        '2344': '華邦電',
+        '2337': '旺宏',
+        '3006': '晶豪科',
+        '5351': '鈺創'
+    }
+    
+    print("Assigning company names...")
     company_names = {}
     for stock_id in stock_list:
-        name = get_company_name(stock_id)
+        name = HARDCODED_NAMES.get(stock_id, "")
         if name:
             company_names[stock_id] = f"{stock_id} {name}"
         else:
             company_names[stock_id] = f"{stock_id}"
-        time.sleep(0.5) # Gentle delay
 
     # Get all distinct year, month sorted descending
     distinct_ym = df[['data_year', 'data_month']].drop_duplicates().sort_values(by=['data_year', 'data_month'], ascending=[False, False])
